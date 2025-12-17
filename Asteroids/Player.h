@@ -17,6 +17,5 @@ public:
 
 private:
 	sf::VertexArray array;
-
 	float shootTimer;
 };

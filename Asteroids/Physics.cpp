@@ -4,13 +4,13 @@ bool collision::intersects(const sf::Vector2f point, const sf::VertexArray& poly
 {
 	//Number of vertices in polygon, -1 since last vertex is same as first
 	size_t vc = polygon.getVertexCount();
-	if (vc < 2) return false;
 	if (vc == 0) return false;
 	size_t n = vc - 1;
 
 	size_t intersectionCount = 0; //If even, no collision. If odd, collision
 	sf::Vector2f rayEnd = sf::Vector2f(std::numeric_limits<float>::max(), point.y); //Max float value for x, same y as bullet
 
+	//Check each edge of polygon for intersection with ray
 	for (size_t i = 0; i < n; i++)
 	{
 		//Get points of current polygon edge
@@ -37,7 +37,7 @@ bool collision::intersects(const sf::Vector2f point, const sf::VertexArray& poly
 }
 
 //Apply transformation to polygon and return transformed polygon
-sf::VertexArray collision::getTransformedPolygon(const sf::VertexArray& polygon, const sf::Transform& transform)
+sf::VertexArray collision::getTransformed(const sf::VertexArray& polygon, const sf::Transform& transform)
 {
 	sf::VertexArray transformed = polygon;
 

@@ -2,8 +2,10 @@
 #include "Global.h"
 #include <random>
 
+//Building the asteroid
 Asteroid::Asteroid(const sf::Vector2f& direction, sf::Vector2f position)
-	: Entity(sf::Vector2f(900, 300), 0), direction(direction), array(sf::LinesStrip, 12)
+//Using LinesStrip so asteroid isn't filled w/ color
+	: Entity(position, 0), direction(direction), array(sf::LinesStrip, 12) 
 	{
 		//Making the asteroid shape
 		array[0].position = sf::Vector2f(-40, 40);
@@ -26,6 +28,7 @@ Asteroid::Asteroid(const sf::Vector2f& direction, sf::Vector2f position)
 		}
 	}
 
+//Update asteroid position and angle
 void Asteroid::update(float deltaTime)
 {
 	//Asteroid movement
@@ -33,6 +36,7 @@ void Asteroid::update(float deltaTime)
 	angle += asteroidSpin * deltaTime;
 
 	//Bounce off edges of screen
+	//X-axis
 	if (position.x < asteroidWidth / 2.0f)
 	{
 		direction.x = abs(direction.x);
@@ -41,7 +45,7 @@ void Asteroid::update(float deltaTime)
 	{
 		direction.x = -abs(direction.x);
 	}
-
+	//Y-axis
 	if (position.y < asteroidHeight / 2.0f)
 	{
 		direction.y = abs(direction.y);
@@ -58,11 +62,13 @@ void Asteroid::render(sf::RenderWindow& window)
 	window.draw(array, sf::Transform().translate(position).rotate(angle));
 }
 
+//Returns vertex array of asteroid
 const sf::VertexArray& Asteroid::getVertexArray() const
 {
 	return array;
 }
 
+//Randomizes direction for asteroid movement
 sf::Vector2f Asteroid::getRandomDirection()
 {
 	//Get random angle in radians
@@ -72,11 +78,15 @@ sf::Vector2f Asteroid::getRandomDirection()
 
 	//Convert angle to direction vector
 	float angle = dist(gen);
+
+	//Returns random direction vector
 	return sf::Vector2f(cos(angle), sin(angle));
 }
 
+//Randomizes position for asteroid spawn
 sf::Vector2f Asteroid::getRandomPosition()
 {
+	//Get random position within screen bounds
 	std::random_device rd;
 	std::mt19937 gen(rd());
 	std::uniform_real_distribution<float> xAxis(asteroidWidth / 2.0f,
@@ -84,5 +94,6 @@ sf::Vector2f Asteroid::getRandomPosition()
 	std::uniform_real_distribution<float> yAxis(asteroidHeight / 2.0f,
 		screenHeight - asteroidHeight / 2.0f);
 
+	//Returns random position vector
 	return sf::Vector2f(xAxis(gen), yAxis(gen));
 }

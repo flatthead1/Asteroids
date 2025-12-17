@@ -5,11 +5,12 @@
 #include "Physics.h"
 #include "Game.h"
 
+//Update bullet position and check for collisions
 void Bullet::update(float deltaTime)
 {
-	lifetime -= deltaTime;
+	lifetime -= deltaTime; //Decreasing lifetime as game goes on
 
-	position += direction * bulletSpeed * deltaTime;
+	position += direction * bulletSpeed * deltaTime; //Moves bullet
 
 	//If lifetime is 0 or less, remove bullet
 	if (lifetime <= 0.0f)
@@ -27,9 +28,12 @@ void Bullet::update(float deltaTime)
 				.translate(asteroid->position)
 				.rotate(asteroid->angle);
 
-			if (collision::intersects(position, collision::getTransformedPolygon(asteroid->getVertexArray(), transform)))
+			//Check for intersection between bullet and asteroid polygon
+			if (collision::intersects(position, collision::getTransformed(asteroid->getVertexArray(), transform)))
 			{
 				lifetime = 0.0f; //Set lifetime to 0 to remove bullet
+				Game::toRemoveList.push_back(std::find(entities.begin(), entities.end(), asteroid)); //Remove asteroid
+				Game::score += 10; //Increase score
 			}
 		}
 	}

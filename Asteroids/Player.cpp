@@ -51,16 +51,18 @@ void Player::update(float deltaTime) {
 	//Shoot bullets
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && shootTimer <= 0.0f) 
 	{
-		shootTimer = shootDelay;
+		shootTimer = shootDelay; //Reset shoot timer
 
 		float radians = angle * (M_PI / 180.0f);
 
+		//Create bullet and add to toAddList
 		Game::toAddList.push_back(new Bullet(position, sf::Vector2f(cos(radians), sin(radians))));
 	}
 
 	sf::Transform playerTransform = sf::Transform().translate(position).rotate(angle);
 }
 
+//Draw player to screen
 void Player::render(sf::RenderWindow& window) {
 	window.draw(array, sf::Transform().translate(position).rotate(angle));
 }
