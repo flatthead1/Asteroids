@@ -5,6 +5,7 @@
 #include "Global.h"
 #include "Game.h"
 
+//Bullet variables
 constexpr float shootDelay = 0.2f;
 constexpr float bulletSpeed = 400.0f;
 constexpr float bulletLifetime = 3.0f;

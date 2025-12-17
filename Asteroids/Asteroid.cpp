@@ -52,9 +52,15 @@ void Asteroid::update(float deltaTime)
 	}
 }
 
+//Draw asteroid to screen
 void Asteroid::render(sf::RenderWindow& window)
 {
 	window.draw(array, sf::Transform().translate(position).rotate(angle));
+}
+
+const sf::VertexArray& Asteroid::getVertexArray() const
+{
+	return array;
 }
 
 sf::Vector2f Asteroid::getRandomDirection()

@@ -1,13 +1,6 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include <SFPhysics.h>
-#include <vector>
-#include <list>
-#include <random>
-#include "Global.h"
-#include "Entity.h"
-#include "Player.h"
-#include "Asteroid.h"
 #include "Game.h"
 
 using namespace std;
@@ -26,10 +19,6 @@ int main()
 	sf::Vector2u ws = window.getSize();
 	sf::Vector2f center(static_cast<float>(ws.x) / 2.0f, static_cast<float>(ws.y) / 2.0f);
 	
-	entities.push_back(new Asteroid(Asteroid::getRandomDirection())); //Creates new asteroid w/ random direction
-
-	float AST = asteroidSpawnTime; //Temporary variable to reset spawn time
-
 	while (window.isOpen())
 	{
 		float deltaTime = clock.restart().asSeconds(); //Restart the clock and gives it the time since last restart in seconds

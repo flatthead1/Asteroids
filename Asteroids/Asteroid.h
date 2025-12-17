@@ -20,6 +20,8 @@ public:
 	//References RenderWindow called "window" (RenderWindow&)
 	void render(sf::RenderWindow& window) override;
 
+	const sf::VertexArray& getVertexArray() const;
+
 	//Randomizes direction for asteroid movement
 	static sf::Vector2f getRandomDirection();
 

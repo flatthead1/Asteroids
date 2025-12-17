@@ -2,6 +2,7 @@
 #include "Asteroid.h"
 #include "Entity.h"
 
+//Player variables
 constexpr float playerWidth = 50.0f;
 constexpr float playerHeight = 40.0f;
 constexpr float turnSpeed = 200.0f;

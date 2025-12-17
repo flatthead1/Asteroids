@@ -3,6 +3,8 @@
 #include "Player.h"
 #include "Global.h"
 
+
+std::vector<Entity*> entities{};
 std::list<std::vector<Entity*>::const_iterator> Game::toRemoveList{};
 std::list<Entity*> Game::toAddList{};
 
