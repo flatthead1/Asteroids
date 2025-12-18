@@ -26,11 +26,22 @@ public:
 
 private:
 	static float AST;
+	static size_t highScore;
+	//Gameplay elements
+	static sf::Font font;
 	static sf::Text scoreText;
+	//Gameover elements
 	static sf::Text gameOverText;
 	static sf::Text continueText;
-	static sf::Font font;
+	//Main Menu elements
+	static sf::Text highScoreText;
+	static sf::Text titleText;
+	static sf::Text menuText;
+	static sf::Text quitText;
+	static sf::Text playText;
 
-	static bool isGameOver;
+
+	//Define the different states the game can be in
+	static enum State { MENU, PLAYING, GAME_OVER } state;
 };
 

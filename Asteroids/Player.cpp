@@ -37,13 +37,27 @@ void Player::update(float deltaTime) {
 		angle += turnSpeed * deltaTime;
 	}
 
+	//Check if player is moving forward
+	bool forward = sf::Keyboard::isKeyPressed(sf::Keyboard::W) or sf::Keyboard::isKeyPressed(sf::Keyboard::Up);
+	//If the player is moving forward:
+	if (forward)
+	{
+		//Increase playerSpeed by acceleration
+		playerSpeed += acceleration * deltaTime;
+		if (playerSpeed > maxSpeed) playerSpeed = maxSpeed;
+	}
+	else
+	{
+		//Slow player down if not moving forward
+		playerSpeed -= deceleration * deltaTime;
+		if (playerSpeed < 0.0f) playerSpeed = 0.0f;
+	}
 
-	//Move forward
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) or sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+	//Forward movement functionality
+	if (playerSpeed > 0.0f) {
 		float radians = angle * (M_PI / 180.0f); //Convert degrees to radians
 
 		//Move player forward in direction they're facing
-	
 		position.x += cos(radians) * playerSpeed * deltaTime;
 		position.y += sin(radians) * playerSpeed * deltaTime;
 

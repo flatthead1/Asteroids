@@ -15,8 +15,6 @@ int main()
 	sf::Clock clock;
 
 	Game::init();
-	Game::begin();
-
 	
 	while (window.isOpen())
 	{
