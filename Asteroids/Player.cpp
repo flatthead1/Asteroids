@@ -91,9 +91,10 @@ void Player::update(float deltaTime) {
 		{
 			Asteroid* asteroid = dynamic_cast<Asteroid*>(entities[i]); //Create asteroid pointer to current entity
 
+			//Ensures that game won't immediately end if asteroid spawns on top of player
 			if (asteroid->getLife() < asteroidHitTime)
 			{
-				continue;
+				continue; //ignores collision
 			}
 
 			sf::Transform asteroidTransform = sf::Transform()

@@ -111,6 +111,7 @@ void Game::begin()
 //Game update event
 void Game::update(sf::RenderWindow& window, float deltaTime)
 {
+	//Main Menu state
 	if (state == MENU)
 	{
 		window.draw(highScoreText);
@@ -118,7 +119,7 @@ void Game::update(sf::RenderWindow& window, float deltaTime)
 		window.draw(playText);
 		window.draw(quitText);
 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) //Begin game if ENTER is pressed
 		{
 			begin();
 		}
@@ -157,6 +158,8 @@ void Game::update(sf::RenderWindow& window, float deltaTime)
 		AST = asteroidSpawnTime;
 	}
 	
+	//State of game where you're actually playing the game
+	//This only exists so the score only display during the game itself
 	if (state == PLAYING)
 	{
 		//Set score to a string and draw to screen
@@ -164,21 +167,24 @@ void Game::update(sf::RenderWindow& window, float deltaTime)
 		window.draw(scoreText);
 	}
 
+	//Game Over state
 	if (state == GAME_OVER)
 	{
-		entities.clear();
+		entities.clear(); //clear any entities on screen
 		score = 0;
+
+		//Show game over text + options
 		window.draw(gameOverText);
 		window.draw(continueText);
 		window.draw(menuText);
 		window.draw(quitText);
 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) //Restart game (SPACE)
 		{
 			begin();
 		}
 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Backspace))
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Backspace)) //Go to menu (BACKSPACE)
 		{
 			state = MENU;
 		}
@@ -186,8 +192,10 @@ void Game::update(sf::RenderWindow& window, float deltaTime)
 	}
 }
 
+//Game Over function
 void Game::gameOver()
 {
+	//If score is higher than stored highscore, then change highscore or score.dat to current score
 	if (score > highScore)
 	{
 		highScore = score;
@@ -197,11 +205,12 @@ void Game::gameOver()
 			file.write(reinterpret_cast<const char*>(&highScore), sizeof(size_t));
 			file.close();
 		}
-		else
+		else //if failed to open file
 		{
 			printf("Failed to write high score to file\n");
 		}
 
+		//Change high score text
 		highScoreText.setString("High Score: " + std::to_string(highScore));
 	}
 

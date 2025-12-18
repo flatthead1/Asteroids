@@ -81,14 +81,14 @@ bool collision::intersects(const sf::VertexArray& poly1, const sf::VertexArray& 
 			float minB = std::numeric_limits<float>::infinity();
 			float maxB = -std::numeric_limits<float>::infinity();
 
-			//Projection for A
+			//Projection for A or first polygon
 			for (size_t j = 0; j < aCount; ++j) {
 				float proj = A[j].position.x * axis.x + A[j].position.y * axis.y;
 				minA = std::min(minA, proj);
 				maxA = std::max(maxA, proj);
 			}
 
-			//Projection for B
+			//Projection for B or second polygon
 			for (size_t j = 0; j < bCount; ++j) {
 				float proj = B[j].position.x * axis.x + B[j].position.y * axis.y;
 				minB = std::min(minB, proj);
