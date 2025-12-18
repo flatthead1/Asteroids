@@ -1,6 +1,7 @@
 #pragma once
 #include "Asteroid.h"
 #include "Entity.h"
+#include <SFML/Audio.hpp>
 
 //Player variables
 constexpr float playerWidth = 50.0f;
@@ -17,5 +18,7 @@ public:
 
 private:
 	sf::VertexArray array;
+	sf::Sound shootSound;
+
 	float shootTimer;
 };

@@ -3,9 +3,11 @@
 #include "Global.h"
 #include "Game.h"
 #include "Asteroid.h"
+#include "Physics.h"
+#include "collision.h"
 
 Player::Player()
-	: Entity(sf::Vector2f(500, 500), 0), array(sf::LinesStrip, 5), shootTimer() {
+	: Entity(sf::Vector2f(600, 450), 0), array(sf::LinesStrip, 5), shootTimer() {
 	//Making player shape
 	array[0].position = sf::Vector2f(20, 0);
 	array[1].position = sf::Vector2f(-30, -20);
@@ -17,6 +19,8 @@ Player::Player()
 	for (size_t i = 0; i < array.getVertexCount(); i++) {
 		array[i].color = sf::Color::White;
 	}
+	
+	shootSound.setBuffer(Game::soundBuffers["shoot"]);
 }
 
 void Player::update(float deltaTime) {
@@ -33,11 +37,13 @@ void Player::update(float deltaTime) {
 		angle += turnSpeed * deltaTime;
 	}
 
+
 	//Move forward
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) or sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
 		float radians = angle * (M_PI / 180.0f); //Convert degrees to radians
 
 		//Move player forward in direction they're facing
+	
 		position.x += cos(radians) * playerSpeed * deltaTime;
 		position.y += sin(radians) * playerSpeed * deltaTime;
 
@@ -51,6 +57,8 @@ void Player::update(float deltaTime) {
 	//Shoot bullets
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && shootTimer <= 0.0f) 
 	{
+		shootSound.play(); //Play shoot sound when shooting bullet
+
 		shootTimer = shootDelay; //Reset shoot timer
 
 		float radians = angle * (M_PI / 180.0f);
@@ -60,6 +68,27 @@ void Player::update(float deltaTime) {
 	}
 
 	sf::Transform playerTransform = sf::Transform().translate(position).rotate(angle);
+
+
+	//Asteroid collision
+	for (size_t i = 0; i < entities.size(); i++)
+	{
+		if (typeid(*entities[i]) == typeid(Asteroid))
+		{
+			Asteroid* asteroid = dynamic_cast<Asteroid*>(entities[i]); //Create asteroid pointer to current entity
+			sf::Transform asteroidTransform = sf::Transform()
+				.translate(asteroid->position)
+				.rotate(asteroid->angle);
+
+			//Check for intersection between bullet and asteroid polygon
+			if (collision::intersects(collision::getTransformed(array, playerTransform),
+				collision::getTransformed(asteroid->getVertexArray(), asteroidTransform)))
+			{
+				Game::gameOver();
+			}
+		}
+	}
+
 }
 
 //Draw player to screen

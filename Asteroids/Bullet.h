@@ -1,9 +1,11 @@
 #pragma once
 
+#include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
 #include "Entity.h"
 #include "Global.h"
 #include "Game.h"
+
 
 //Bullet variables
 constexpr float shootDelay = 0.5f;

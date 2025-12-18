@@ -1,6 +1,7 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include <SFPhysics.h>
+#include "Physics.h"
 #include "Game.h"
 
 using namespace std;
@@ -13,11 +14,9 @@ int main()
 	sf::RenderWindow window(sf::VideoMode(1200, 900), "Asteroids", sf::Style::Close | sf::Style::Titlebar); //Makes window unresizable
 	sf::Clock clock;
 
+	Game::init();
 	Game::begin();
 
-	//Centers player by window size
-	sf::Vector2u ws = window.getSize();
-	sf::Vector2f center(static_cast<float>(ws.x) / 2.0f, static_cast<float>(ws.y) / 2.0f);
 	
 	while (window.isOpen())
 	{
@@ -33,7 +32,9 @@ int main()
 
 		}
 
-		Game::update(window, deltaTime);
+		window.clear(); //Set game to black screen by default, should be first on priority
+
+		Game::update(window, deltaTime); //Updates game by deltaTime
 
 		//Draws game
 		window.display();

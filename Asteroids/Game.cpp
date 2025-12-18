@@ -8,18 +8,26 @@ std::vector<Entity*> entities{};
 std::list<std::vector<Entity*>::const_iterator> Game::toRemoveList{};
 std::list<Entity*> Game::toAddList{};
 
+std::unordered_map<std::string, sf::SoundBuffer> Game::soundBuffers;
+
 size_t Game::score{}; //Game score
 
 //Creates temporal asteroid spawn timer (AST)
 //Unlike the other variable "asteroidSpawnTime", this one changes during gameplay
 float Game::AST = 0.0f;
 
-//Score text and font
+bool Game::isGameOver{};
+
+//Define text and font
+sf::Text Game::gameOverText{};
+sf::Text Game::continueText{};
 sf::Text Game::scoreText{};
 sf::Font Game::font{};
 
-//Game begin event
-void Game::begin()
+
+//Initialization function that only runs once
+//This way we don't call these other events inside that would normally be in begin()
+void Game::init()
 {
 	//Set font of score text to Roboto (Can be changed to any font, just add to font folder)
 	font.loadFromFile("fonts/Roboto-ExtraBold.ttf");
@@ -28,10 +36,25 @@ void Game::begin()
 	scoreText.setCharacterSize(40);
 	scoreText.setFillColor(sf::Color::White);
 
+	gameOverText.setFont(font);
+	gameOverText.setPosition(sf::Vector2f(350, 350));
+	gameOverText.setCharacterSize(96);
+	gameOverText.setString("Game Over!");
+
+	continueText.setFont(font);
+	continueText.setPosition(sf::Vector2f(450, 550));
+	continueText.setCharacterSize(24);
+	continueText.setString("Press SPACE to try again!");
+
+	soundBuffers["shoot"].loadFromFile("audio/shoot.wav");
+}
+
+//Game begin event
+void Game::begin()
+{
+	isGameOver = false;
 	entities.push_back(new Player()); //Create player
-
 	float AST = asteroidSpawnTime; //Reset AST to original spawn time value
-
 }
 
 //Game update event
@@ -76,4 +99,23 @@ void Game::update(sf::RenderWindow& window, float deltaTime)
 	//Set score to a string and draw to screen
 	scoreText.setString(std::to_string(score));
 	window.draw(scoreText);
+
+	if (isGameOver)
+	{
+		entities.clear();
+		score = 0;
+		window.draw(gameOverText);
+		window.draw(continueText);
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+		{
+			begin();
+		}
+
+	}
+}
+
+void Game::gameOver()
+{
+	isGameOver = true;
 }
