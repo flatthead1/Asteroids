@@ -90,6 +90,12 @@ void Player::update(float deltaTime) {
 		if (typeid(*entities[i]) == typeid(Asteroid))
 		{
 			Asteroid* asteroid = dynamic_cast<Asteroid*>(entities[i]); //Create asteroid pointer to current entity
+
+			if (asteroid->getLife() < asteroidHitTime)
+			{
+				continue;
+			}
+
 			sf::Transform asteroidTransform = sf::Transform()
 				.translate(asteroid->position)
 				.rotate(asteroid->angle);

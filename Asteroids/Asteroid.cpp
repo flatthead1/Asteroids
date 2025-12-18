@@ -5,7 +5,7 @@
 //Building the asteroid
 Asteroid::Asteroid(const sf::Vector2f& direction, sf::Vector2f position)
 //Using LinesStrip so asteroid isn't filled w/ color
-	: Entity(position, 0), direction(direction), array(sf::LinesStrip, 12) 
+	: Entity(position, 0), direction(direction), array(sf::LinesStrip, 12), life()
 	{
 		//Making the asteroid shape
 		array[0].position = sf::Vector2f(-40, 40);
@@ -31,6 +31,8 @@ Asteroid::Asteroid(const sf::Vector2f& direction, sf::Vector2f position)
 //Update asteroid position and angle
 void Asteroid::update(float deltaTime)
 {
+	life += deltaTime; //How long has the asteroid been alive?
+
 	//Asteroid movement
 	position += asteroidSpeed * direction * deltaTime;
 	angle += asteroidSpin * deltaTime;

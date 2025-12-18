@@ -7,6 +7,7 @@ constexpr float asteroidHeight = 80.0f;
 constexpr float asteroidSpin = 25.0f;
 constexpr float asteroidSpeed = 80.0f;
 constexpr float asteroidSpawnTime = 3.0f;
+constexpr float asteroidHitTime = 2.0f;
 
 class Asteroid : public Entity
 {
@@ -28,8 +29,12 @@ public:
 	//Randomizes position for asteroid spawn (identical code as getRandomDirection())
 	static sf::Vector2f getRandomPosition();
 
+	float getLife() { return life; }
+
 private:
 	sf::VertexArray array;
 	sf::Vector2f direction;
+
+	float life;
 };
 
